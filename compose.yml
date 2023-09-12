@@ -1,0 +1,37 @@
+services:
+  main:
+    restart: always
+    build:
+      context: ./
+      network: host
+      dockerfile: Dockerfile
+      args:
+        - BASE_IMAGE=$BASE_IMAGE
+        - USER=$USER
+        - UID=$UID
+        - GID=$GID
+        - USER_PASSWD=$USER_PASSWD
+        - ROOT_PASSWD=$ROOT_PASSWD
+        - PYTHON_VERSION=$PYTHON_VERSION
+        - CONTAINER_PORT=$CONTAINER_PORT
+    command: sudo service ssh start && bash
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    volumes:
+      # bind
+      - $PWD/work:/home/$USER/work
+      #- /home/$USER/dataset:/home/$USER/dataset
+      # volume
+      #- /home/$USER/volume
+      #- named_volume:/home/$USER/named_volume
+    ports:
+      - $HOST_PORT:$CONTAINER_PORT
+    tty: true
+    mem_limit: $MEM
+#volumes:
+#  named_volume:

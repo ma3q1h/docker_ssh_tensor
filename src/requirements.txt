@@ -1,0 +1,13 @@
+pydub
+pandas
+librosa
+soundfile
+numpy
+joblib
+scipy
+#keras
+scikit-learn
+#sqlite3
+ipython
+ipykernel
+tensorflow-gpu==2.6.0
